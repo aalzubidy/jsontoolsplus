@@ -3,6 +3,7 @@ import NotFound from '../Components/NotFound';
 import JSONPath from '../Components/JSONPath';
 import Paths from './Paths';
 import Navbar from '../Components/Navbar';
+import SiteFooter from "../Components/SiteFooter";
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
         <Route exact path={Paths.jsonPath} element={<JSONPath />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <SiteFooter />
     </Router>
   )
 };
