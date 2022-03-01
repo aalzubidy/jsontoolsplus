@@ -1,7 +1,7 @@
 const Paths = {
   home: '/',
   jsonPath: '/jsonPath',
-  schemaEvaluator: '/schemaEvaluator',
+  schemaValidator: '/schemaEvaluator',
   schemaGenerator: '/schemaGenerator',
   jsonBeautify: '/jsonBeautify',
   apis: '/apis',

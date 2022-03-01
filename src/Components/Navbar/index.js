@@ -1,22 +1,32 @@
-// import { useNavigate } from 'react-router-dom';
-// import Paths from '../../AppRouter/Paths';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Paths from '../../AppRouter/Paths';
 import './navbar.scss';
 
 const Navbar = () => {
     // Settings
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const handleOnClick = (evt, navigateTo) => {
-    //     evt.preventDefault();
-    //     navigate(navigateTo);
-    // }
+    // Handle active state
+    const [active, setActive] = useState(Paths.jsonPath);
+
+    const handleOnClick = (evt, navigateTo) => {
+        evt.preventDefault();
+        setActive(navigateTo);
+        navigate(navigateTo);
+    }
+
+    // Handle returning class name including which one is active
+    const handleClassName = (currentPath) => {
+        return `nav-link mx-2 ${active === currentPath ? 'active' : ''}`;
+    }
 
     return (
         <div>
-            {/* <nav className='navbar fixed-top navbar-expand-sm navbar-light'>
+            <nav className='navbar fixed-top navbar-expand-sm navbar-light'>
                 <div className='container-fluid'>
-                    <a className='navbar-brand mx-5' onClick={(evt) => handleOnClick(evt, Paths.home)} href='/'>
-                        <img src="../spurr-logo-white.png" alt="spurr" height="26" className="d-inline-block align-text-top" />
+                    <a className='navbar-brand mx-5' onClick={(evt) => handleOnClick(evt, Paths.jsonPath)} href='/'>
+                        <img src="../images/jtp-logo.png" alt="jsontoolsplus" height="36" className="d-inline-block align-text-top" />
                     </a>
                     <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
                         <span className='navbar-toggler-icon'></span>
@@ -25,15 +35,16 @@ const Navbar = () => {
                         <div className='me-auto'></div>
                         <div className='d-flex'>
                             <div className='navbar-nav'>
-                                <a className='nav-link mx-2' onClick={(evt) => handleOnClick(evt, Paths.managePost)} href={Paths.managePost}>Manage Post</a>
-                                <a className='nav-link mx-2' href='https://github.com/aalzubidy/spurr-frontend-frontend' target='_blank' rel='noreferrer'>Source Code</a>
-                                {!token ? <a className='nav-link mx-2' onClick={(evt) => handleOnClick(evt, Paths.loginRegister)} href='/'>Login/Register</a> : ''}
-                                {token ? <a className='nav-link mx-2' onClick={handleLogout} name='logout' href='/'>Logout</a> : ''}
+                                <a className={handleClassName(Paths.jsonPath)} onClick={(evt) => handleOnClick(evt, Paths.jsonPath)} href={Paths.jsonPath}>JSON Path Evaluator</a>
+                                <a className={handleClassName(Paths.schemaValidator)} onClick={(evt) => handleOnClick(evt, Paths.schemaValidator)} href={Paths.schemaValidator}>JSON Schema Validator</a>
+                                <a className={handleClassName(Paths.schemaGenerator)} onClick={(evt) => handleOnClick(evt, Paths.schemaGenerator)} href={Paths.schemaGenerator}>JSON Schema Generator</a>
+                                <a className={handleClassName(Paths.jsonBeautify)} onClick={(evt) => handleOnClick(evt, Paths.jsonBeautify)} href={Paths.jsonPath}>JSON Beautify</a>
+                                <a className={handleClassName()} href='https://github.com/aalzubidy/jsontoolsplus' target='_blank' rel='noreferrer'>Source Code</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </nav> */}
+            </nav>
         </div>
     );
 }
