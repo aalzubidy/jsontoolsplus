@@ -35,10 +35,10 @@ const Navbar = () => {
                         <div className='me-auto'></div>
                         <div className='d-flex'>
                             <div className='navbar-nav'>
-                                <a className={handleClassName(Paths.jsonPath)} onClick={(evt) => handleOnClick(evt, Paths.jsonPath)} href={Paths.jsonPath}>JSON Path Evaluator</a>
-                                <a className={handleClassName(Paths.schemaValidator)} onClick={(evt) => handleOnClick(evt, Paths.schemaValidator)} href={Paths.schemaValidator}>JSON Schema Validator</a>
-                                <a className={handleClassName(Paths.schemaGenerator)} onClick={(evt) => handleOnClick(evt, Paths.schemaGenerator)} href={Paths.schemaGenerator}>JSON Schema Generator</a>
-                                <a className={handleClassName(Paths.jsonBeautify)} onClick={(evt) => handleOnClick(evt, Paths.jsonBeautify)} href={Paths.jsonPath}>JSON Beautify</a>
+                                <a className={handleClassName(Paths.jsonPath)} onClick={(evt) => handleOnClick(evt, Paths.jsonPath)} href={Paths.jsonPath}>Path Evaluator</a>
+                                <a className={handleClassName(Paths.schemaValidator)} onClick={(evt) => handleOnClick(evt, Paths.schemaValidator)} href={Paths.schemaValidator}>Schema Validator</a>
+                                <a className={handleClassName(Paths.schemaGenerator)} onClick={(evt) => handleOnClick(evt, Paths.schemaGenerator)} href={Paths.schemaGenerator}>Schema Generator</a>
+                                <a className={handleClassName(Paths.jsonBeautify)} onClick={(evt) => handleOnClick(evt, Paths.jsonBeautify)} href={Paths.jsonPath}>Beautify</a>
                                 <a className={handleClassName()} href='https://github.com/aalzubidy/jsontoolsplus' target='_blank' rel='noreferrer'>Source Code</a>
                             </div>
                         </div>
