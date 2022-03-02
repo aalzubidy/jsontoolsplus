@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
 import { JSONPath as JSONPathPlus } from 'jsonpath-plus';
+import Ajv from "ajv"
 import { Tooltip } from '@mui/material';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
 import SavedJSONPaths from '../SavedJSONPaths';
-import './jsonPath.scss';
+import './SchemaValidator.scss';
 
-const JSONPath = () => {
+const SchemaValidator = () => {
   const [inputPath, setInputPath] = useState('');
   const [inputObject, setInputObject] = useState('{}');
   const [outputResults, setOutputResults] = useState('{}');
+
+  const ajv = new Ajv();
+
+  // const validate = ajv.compile(schema)
+  // const valid = validate(data)
+  // if (!valid) console.log(validate.errors)
 
   // Make sure inputs are valide before running json path plus
   const [inputsAreValid, setInputsAreValid] = useState(false);
@@ -83,11 +90,11 @@ const JSONPath = () => {
 
       <div className='row objectResultsRow'>
         <div className='col objectCol'>
-          JSON Input
+          JSON Object
           <CustomAceEditor editorValue={inputObject} setEditorValue={setInputObject} setAnnotations={setInputObjectAnnotations} />
         </div>
         <div className='col resultsCol'>
-          Results
+          JSON Schema
           <CustomAceEditor editorValue={outputResults} readOnlyMode={true} />
         </div>
       </div>
@@ -124,4 +131,4 @@ const JSONPath = () => {
   )
 };
 
-export default JSONPath;
+export default SchemaValidator;

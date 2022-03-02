@@ -1,0 +1,42 @@
+.jsonPathContainer {
+  margin-top: 65px;
+  width: 100%;
+  height: calc(100vh - 65px - 30px);
+
+  .pathInput {
+    text-align: right;
+    margin-left: 3%;
+    margin-right: 3%;
+
+    div {
+      margin-top: 16px;
+    }
+  }
+
+  .objectResultsRow {
+    margin-top: 16px;
+    margin-right: 1px;
+    margin-left: 1%;
+
+    .objectCol,
+    .resultsCol {
+      margin: 6px;
+    }
+  }
+
+  .actionsRow {
+    text-align: right;
+
+    div {
+      margin-right: 16px;
+
+      i {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .savedResultsRow {
+    margin-left: 16px;
+  }
+}
