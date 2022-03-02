@@ -1,42 +1,47 @@
-.jsonPathContainer {
+.schemaValidatorContainer {
   margin-top: 65px;
   width: 100%;
   height: calc(100vh - 65px - 30px);
 
   .pathInput {
-    text-align: right;
-    margin-left: 3%;
-    margin-right: 3%;
+    text-align: center;
 
     div {
-      margin-top: 16px;
+      margin-top: 26px;
+
+      button {
+        width: 40%;
+      }
     }
   }
 
-  .objectResultsRow {
+  .objectSchemaRow {
     margin-top: 16px;
     margin-right: 1px;
     margin-left: 1%;
 
     .objectCol,
-    .resultsCol {
+    .schemaCol {
       margin: 6px;
     }
   }
 
-  .actionsRow {
-    text-align: right;
-
+  .validationResultsRow {
     div {
-      margin-right: 16px;
+      margin-top: 6px;
+      padding-left: 46px;
 
-      i {
+      .validStatus {
         font-size: 1.2rem;
+        color: rgb(0, 150, 0);
+        margin-left: 6px;
+      }
+
+      .invalidStatus {
+        font-size: 1.2rem;
+        color: rgb(201, 0, 0);
+        margin-left: 6px;
       }
     }
-  }
-
-  .savedResultsRow {
-    margin-left: 16px;
   }
 }

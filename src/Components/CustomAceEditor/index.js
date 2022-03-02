@@ -33,11 +33,11 @@ const CustomAceEditor = (props) => {
       onValidate={handleOnValidate}
       name={`aceEditor-${Math.random()}`}
       width='100%'
-      height='60vh'
+      height='56vh'
       enableBasicAutocompletion
       enableLiveAutocompletion
       enableSnippets
-      fontSize='1.1rem'
+      fontSize='1rem'
       tabSize={2}
       value={editorValue}
       readOnly={readOnlyMode}

@@ -1,60 +1,55 @@
 import { useEffect, useState } from 'react';
-import { JSONPath as JSONPathPlus } from 'jsonpath-plus';
 import Ajv from "ajv"
 import { Tooltip } from '@mui/material';
-import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
-import SavedJSONPaths from '../SavedJSONPaths';
 import './SchemaValidator.scss';
 
 const SchemaValidator = () => {
-  const [inputPath, setInputPath] = useState('');
-  const [inputObject, setInputObject] = useState('{}');
-  const [outputResults, setOutputResults] = useState('{}');
-
   const ajv = new Ajv();
 
-  // const validate = ajv.compile(schema)
-  // const valid = validate(data)
-  // if (!valid) console.log(validate.errors)
+  const [inputObject, setInputObject] = useState('{}');
+  const [inputSchema, setInputSchema] = useState('{}');
 
-  // Make sure inputs are valide before running json path plus
+  const [validationStatus, setValidationStatus] = useState('');
+  const [validationErrors, setValidationErrors] = useState([]);
+
+  // Make sure inputs are valide before running ajv check
   const [inputsAreValid, setInputsAreValid] = useState(false);
   const [inputObjectAnnotations, setInputObjectAnnotations] = useState([]);
+  const [inputSchemaAnnotations, setInputSchemaAnnotations] = useState([]);
 
-  // Handle auto run
-  const [autoRun, setAutoRun] = useState(false);
-
-  // Handle saved results in memory
-  const [savedResults, setSavedResults] = useState([]);
-
-  // Handle saved results dialog
-  const [savedJSONPathsDialog, setSavedJSONPathsDialog] = useState(false);
-
-  // Handle run button to evaluate the path against the input object
-  const handleRun = async (validated = inputsAreValid) => {
-    if (validated) {
-      const inputObjectJSON = JSON.parse(inputObject);
-      let results = '';
+  // Handle run button to validate object against schema
+  const handleRun = async () => {
+    if (inputsAreValid) {
       try {
-        results = await JSONPathPlus({ path: inputPath, json: inputObjectJSON });
-        const resultsString = JSON.stringify(results, null, 2);
-        setOutputResults(resultsString);
+        const inputObjectJSON = JSON.parse(inputObject);
+        const inputSchemaJSON = JSON.parse(inputSchema);
+
+        const validate = ajv.compile(inputSchemaJSON)
+        const valid = validate(inputObjectJSON);
+
+        if (valid) {
+          setValidationStatus('Valid');
+          setValidationErrors([]);
+        }
+
+        if (!valid) {
+          setValidationStatus('Invalid');
+          setValidationErrors(validate.errors);
+        }
       } catch (error) {
-        if (typeof (results) === 'string') setOutputResults(results);
-        else setOutputResults(error.message || '');
+        console.log(error);
+        alert('Sorry something went wrong with schema validation. Check console for error details.');
       }
     }
   }
 
-  // Check if the input path and input json object are valid
+  // Check if the input object and input schema are valid
   const validateInputs = () => {
     try {
       const inputObjectJSON = JSON.parse(inputObject);
-      if (inputObjectJSON && inputPath && inputObjectAnnotations?.length === 0) {
-        setInputsAreValid(true);
-        if (autoRun) handleRun(true);
-      }
+      const inputSchemaJSON = JSON.parse(inputSchema);
+      if (inputObjectJSON && inputSchemaJSON && inputObjectAnnotations?.length === 0 && inputSchemaAnnotations?.length === 0) setInputsAreValid(true);
       else setInputsAreValid(false);
     } catch (error) {
       setInputsAreValid(false);
@@ -63,66 +58,42 @@ const SchemaValidator = () => {
 
   useEffect(() => {
     validateInputs();
-  }, [inputPath, inputObject, autoRun]);
+  }, [inputObject, inputSchema]);
 
   return (
-    <div className='container-fluid jsonPathContainer'>
-
-      <SavedJSONPaths
-        openDialog={savedJSONPathsDialog}
-        setOpenDialog={setSavedJSONPathsDialog}
-        savedResults={savedResults}
-        setInputPath={setInputPath}
-        setInputObject={setInputObject}
-        setOutputResults={setOutputResults}
-      />
-
+    <div className='container-fluid schemaValidatorContainer'>
       <div className='row pathInput'>
-        <div className='col col-sm-10'>
-          <input className='form-control' type='text' value={inputPath} onChange={(evt) => setInputPath(evt.target.value)} placeholder='Enter json path' />
-        </div>
-        <div className='col col-sm-2'>
-          <button className='mx-1 btn btn-outline-primary' onClick={handleRun}>Run</button>
-          <button className={`mx-1 btn btn-outline-${autoRun ? 'success' : 'danger'}`} onClick={() => setAutoRun(!autoRun)}>Auto Run: {autoRun ? 'On' : 'Off'}</button>
+        <div>
+          <Tooltip title='Validate object against schema'>
+            <button className='btn btn-outline-primary' onClick={handleRun}>Validate Schema</button>
+          </Tooltip>
         </div>
       </div>
 
-
-      <div className='row objectResultsRow'>
+      <div className='row objectSchemaRow'>
         <div className='col objectCol'>
           JSON Object
           <CustomAceEditor editorValue={inputObject} setEditorValue={setInputObject} setAnnotations={setInputObjectAnnotations} />
         </div>
-        <div className='col resultsCol'>
+        <div className='col schemaCol'>
           JSON Schema
-          <CustomAceEditor editorValue={outputResults} readOnlyMode={true} />
+          <CustomAceEditor editorValue={inputSchema} setEditorValue={setInputSchema} setAnnotations={setInputSchemaAnnotations} />
         </div>
       </div>
 
-      <div className='row actionsRow'>
-        <div className='col'>
-          <Tooltip title='Copy results to clipboard'>
-            <i className='btn btn-link bi bi-clipboard' onClick={() => copyTextToClipBoard(outputResults)} />
-          </Tooltip>
-
-          <Tooltip title='Download results'>
-            <i className='btn btn-link bi bi-download' onClick={() => downloadFile(JSON.parse(outputResults), 'jsontoolsplus-jsonpath')} />
-          </Tooltip>
-
-          <Tooltip title='Use results as input'>
-            <i className='btn btn-link bi bi-arrow-repeat' onClick={() => setInputObject(outputResults)} />
-          </Tooltip>
-
-          <Tooltip title='Save temporarily in memory (removed after refersh)'>
-            <i className='btn btn-link bi bi-memory' onClick={() => setSavedResults([...savedResults, { inputPath, inputObject, outputResults }])} />
-          </Tooltip>
+      <div className='row validationResultsRow'>
+        <div>Schema Validation Results: {validationStatus}
+          {validationStatus === 'Valid' ? <i className='bi bi-check2-circle validStatus' /> : ''}
+          {validationStatus === 'Invalid' ? <i className='bi bi-exclamation-octagon invalidStatus' /> : ''}
         </div>
-      </div>
 
-      <div className='row savedResultsRow'>
-        {savedResults.length > 0 ?
+        {validationErrors.length > 0 ?
           <div>
-            <button className='btn btn-outline-primary' onClick={() => setSavedJSONPathsDialog(true)}>View Temporarily Stored JSON Paths</button>
+            <ul>
+              {validationErrors.map((item) => {
+                return <li key={Math.random()}>{item.instancePath} - {item.schemaPath} - {item.message}</li>
+              })}
+            </ul>
           </div>
           : ''}
       </div>
