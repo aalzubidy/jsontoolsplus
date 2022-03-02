@@ -4,6 +4,7 @@ const Paths = {
   schemaValidator: '/schemaEvaluator',
   schemaGenerator: '/schemaGenerator',
   jsonBeautify: '/jsonBeautify',
+  jsonMinify: '/jsonMinify',
   apis: '/apis',
 };
 

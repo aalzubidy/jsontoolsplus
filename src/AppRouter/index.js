@@ -4,6 +4,7 @@ import JSONPath from '../Components/JSONPath';
 import SchemaValidator from "../Components/SchemaValidator";
 import SchemaGenerator from "../Components/SchemaGenerator";
 import JSONBeautify from "../Components/JSONBeautify";
+import JSONMinify from "../Components/JSONMinify";
 import Paths from './Paths';
 import Navbar from '../Components/Navbar';
 import SiteFooter from "../Components/SiteFooter";
@@ -18,6 +19,7 @@ const AppRouter = () => {
         <Route exact path={Paths.schemaValidator} element={<SchemaValidator />} />
         <Route exact path={Paths.schemaGenerator} element={<SchemaGenerator />} />
         <Route exact path={Paths.jsonBeautify} element={<JSONBeautify />} />
+        <Route exact path={Paths.jsonMinify} element={<JSONMinify />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <SiteFooter />

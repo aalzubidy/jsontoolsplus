@@ -1,0 +1,40 @@
+.jsonMinifyContainer {
+  margin-top: 65px;
+  width: 100%;
+  height: calc(100vh - 65px - 30px);
+
+  .pathInput {
+    text-align: center;
+
+    div {
+      margin-top: 26px;
+
+      button {
+        width: 40%;
+      }
+    }
+  }
+
+  .objectSchemaRow {
+    margin-top: 16px;
+    margin-right: 1px;
+    margin-left: 1%;
+
+    .objectCol,
+    .schemaCol {
+      margin: 6px;
+    }
+  }
+
+  .actionsRow {
+    text-align: right;
+
+    div {
+      margin-right: 16px;
+
+      i {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
