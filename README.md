@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+# Welcome to JSON Tools Plus!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+There are couple tools that does things with JSON. However, I wanted one place that does it all. I also wanted couple other features like copy to clipboard, download results, save things in the browser for a bit, etc. So **JSON Tools Plus** was born. I built this project before but it was very basic and it was built on angular.js. I wanted to update it, add more tools to it, and provide small room for customization too. I always build applications for me first, that I want to be a user of. You're very welcome to take advantage of this tool and I hope it helps you with your projects! You're also welcome to contribute to this project and have it on your resume as a project you helped build. It's very simple application as you can see in the UI and the code. The priority to always have useful, easy to use, and easy to maintain applications. Feel free to contact me if you have any questions or suggestions. Thank you for checking out **JSON Tools Plus**!
 
-## Available Scripts
+## Contribution
+I welcome all ideas, suggestions, and code contribution to the project. The application is written in react with javascript plus bootstrap and MUI. I was not sure where to use MUI so I added it at the beginning and then used few components. I'm okay with replacing it fully with bootstrap too.
 
-In the project directory, you can run:
+Create a ticket, git clone the project, create a branch with patch/minor/major, and submit your merge request. There is a pre-commit git hook that will be installed on first **npm install** which will ensure the package.json and package-lock.json will update with every commit according to the branch name. Thus, please ensure your branch name follows the standard naming (patch/minor/major)-issueNumber. Thank you, and looking forward for your contributions!
 
-### `npm start`
+## To Run Locally
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- git clone
+- npm install
+- npm start
+- access it on localhost:3000
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Architecture and Design Notes
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- There is an alert context to use with notifications. It's implemented but I didn't use it yet. It's there if you want to throw notifications in the application.
+- There is some repetitive code in some sections. But I was aiming to separate the pages fully, just in case I have a new idea or implementation for that page in the future.
