@@ -1,5 +1,5 @@
 import { Modal, Tooltip } from '@mui/material';
-import './SavedJSONPaths.scss';
+import './savedJSONPaths.scss';
 
 const SavedJSONPaths = (props) => {
 

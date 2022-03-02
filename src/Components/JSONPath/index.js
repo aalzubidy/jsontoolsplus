@@ -99,7 +99,7 @@ const JSONPath = () => {
           </Tooltip>
 
           <Tooltip title='Download results'>
-            <i className='btn btn-link bi bi-download' onClick={() => downloadFile(JSON.parse(outputResults), 'jsontoolsplus-jsonpath')} />
+            <i className='btn btn-link bi bi-download' onClick={() => downloadFile(JSON.parse(outputResults), 'jsontoolsplus-path')} />
           </Tooltip>
 
           <Tooltip title='Use results as input'>

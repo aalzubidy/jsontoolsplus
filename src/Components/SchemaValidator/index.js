@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Ajv from "ajv"
+import Ajv from 'ajv';
 import { Tooltip } from '@mui/material';
 import CustomAceEditor from '../CustomAceEditor';
-import './SchemaValidator.scss';
+import './schemaValidator.scss';
 
 const SchemaValidator = () => {
   const ajv = new Ajv();
