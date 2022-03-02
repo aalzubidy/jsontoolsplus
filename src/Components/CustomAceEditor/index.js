@@ -15,15 +15,10 @@ ace.config.setModuleUrl("ace/mode/json_worker", jsonWorkerUrl);
 
 const CustomAceEditor = (props) => {
 
-  const { setAnnotations, setEditorValue } = props;
+  const { editorValue, setEditorValue, setAnnotations, readOnlyMode } = props;
 
   const handleOnChange = (newValue) => {
-    try {
-      const newValueJSON = JSON.parse(newValue);
-      setEditorValue(newValueJSON);
-    } catch (error) {
-      setEditorValue(newValue);
-    }
+    if (setEditorValue) setEditorValue(newValue);
   }
 
   const handleOnValidate = (annotations) => {
@@ -44,6 +39,8 @@ const CustomAceEditor = (props) => {
       enableSnippets
       fontSize='1.1rem'
       tabSize={2}
+      value={editorValue}
+      readOnly={readOnlyMode}
     />
   )
 }
