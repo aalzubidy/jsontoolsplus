@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import Paths from '../../AppRouter/Paths';
 import './navbar.scss';
 
@@ -14,6 +15,8 @@ const Navbar = () => {
         evt.preventDefault();
         const el = document.createElement('a');
         el.href = evt.target.href;
+        ReactGA.set({ page: el.pathname });
+        ReactGA.pageview(el.pathname);
         navigate(el.pathname);
     }
 
