@@ -1,24 +1,10 @@
-#!/usr/bin/env node
-
 const fs = require('fs');
 
-const precommit = fs.readFileSync('./pre-commit.sh', 'utf8');
-
-fs.stat('.git', (err) => {
-  if (err == null) {
-    fs.stat('.git/hooks/pre-commit', (statErr) => {
-      if (statErr == null || statErr.code === 'ENOENT') {
-        fs.writeFile('.git/hooks/pre-commit', precommit, {
-          mode: 0o755,
-        }, (writeErr) => {
-          if (writeErr) {
-            return console.log(writeErr.message);
-          }
-          return null;
-        });
-      } else {
-        console.log(statErr.message);
-      }
-    });
-  }
-});
+try {
+  const preCommitFile = fs.readFileSync('./pre-commit.sh', 'utf8');
+  fs.writeFileSync('.git/hooks/pre-commit', preCommitFile, { mode: 0o755 });
+  console.log('Added pre-commit hooks');
+} catch (error) {
+  console.log('Could not add pre-commit hooks');
+  console.log(error);
+}

@@ -3,3 +3,5 @@ node_modules/*
 public/*
 misc/*
 testFile.js
+build/*
+public/*

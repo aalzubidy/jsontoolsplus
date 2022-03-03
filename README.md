@@ -1,5 +1,7 @@
 # Welcome to JSON Tools Plus!
 
+[<img alt="Website Deployed for Free with FTP Deploy Action" src="https://img.shields.io/badge/Website deployed for free with-FTP DEPLOY ACTION-%3CCOLOR%3E?style=for-the-badge&color=2b9348">](https://github.com/SamKirkland/FTP-Deploy-Action)
+
 There are couple tools that does things with JSON. However, I wanted one place that does it all. I also wanted couple other features like copy to clipboard, download results, save things in the browser for a bit, etc. So **JSON Tools Plus** was born. I built this project before but it was very basic and it was built on angular.js. I wanted to update it, add more tools to it, and provide small room for customization too. I always build applications for me first, that I want to be a user of. You're very welcome to take advantage of this tool and I hope it helps you with your projects! You're also welcome to contribute to this project and have it on your resume as a project you helped build. It's very simple application as you can see in the UI and the code. The priority to always have useful, easy to use, and easy to maintain applications. Feel free to contact me if you have any questions or suggestions. Thank you for checking out **JSON Tools Plus**!
 
 ## Contribution

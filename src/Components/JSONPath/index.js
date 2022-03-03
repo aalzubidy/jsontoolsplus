@@ -71,10 +71,10 @@ const JSONPath = () => {
       />
 
       <div className='row pathInput'>
-        <div className='col col-sm-10'>
+        <div className='col col-lg-10 col-md-8'>
           <input className='form-control' type='text' value={inputPath} onChange={(evt) => setInputPath(evt.target.value)} placeholder='Enter json path' />
         </div>
-        <div className='col col-sm-2'>
+        <div className='col col-lg-2 col-md-4'>
           <button className='mx-1 btn btn-outline-primary' onClick={handleRun}>Run</button>
           <button className={`mx-1 btn btn-outline-${autoRun ? 'success' : 'danger'}`} onClick={() => setAutoRun(!autoRun)}>Auto Run: {autoRun ? 'On' : 'Off'}</button>
         </div>

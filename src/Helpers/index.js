@@ -26,14 +26,14 @@ const downloadFile = function downloadFile(fileData, fileName) {
   const dateName = `${d.getMonth() + 1}-${d.getDate()}-${d.getFullYear()}-${d.getHours()}-${d.getMinutes()}`;
   const dataStr = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(fileData, null, 2));
   const downloadAnchorNode = document.createElement('a');
-  downloadAnchorNode.setAttribute("href", dataStr);
-  downloadAnchorNode.setAttribute("download", fileName + '-' + dateName + ".json");
+  downloadAnchorNode.setAttribute('href', dataStr);
+  downloadAnchorNode.setAttribute('download', fileName + '-' + dateName + '.json');
   document.body.appendChild(downloadAnchorNode); // required for firefox
   downloadAnchorNode.click();
   downloadAnchorNode.remove();
-}
+};
 
 export {
   copyTextToClipBoard,
   downloadFile
-}
+};
