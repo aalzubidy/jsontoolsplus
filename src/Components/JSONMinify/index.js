@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
+import { Helmet } from 'react-helmet';
+import Paths from '../../AppRouter/Paths';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
 import './jsonMinify.scss';
@@ -42,6 +44,14 @@ const JSONMinify = () => {
 
   return (
     <div className='container-fluid jsonMinifyContainer'>
+      <Helmet>
+        <title>JSON Tools Plus - JSON Minify</title>
+        <meta name="pagename" content="JSON Tools Plus - JSON Minify" />
+        <meta name="subject" content="JSON Tools Plus - JSON Minify" />
+        <meta name="url" content={`http://www.jsontoolsplus.com${Paths.jsonMinify}`} />
+        <meta name="identifier-URL" content={`http://www.jsontoolsplus.com${Paths.jsonMinify}`} />
+      </Helmet>
+
       <div className='row pathInput'>
         <div>
           <Tooltip title='Generate a JSON schema out of the input object'>

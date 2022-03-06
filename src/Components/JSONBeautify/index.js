@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
+import { Helmet } from 'react-helmet';
+import Paths from '../../AppRouter/Paths';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
 import './jsonBeautify.scss';
@@ -42,6 +44,14 @@ const JSONBeautify = () => {
 
   return (
     <div className='container-fluid jsonBeautifyContainer'>
+      <Helmet>
+        <title>JSON Tools Plus - JSON Beautify</title>
+        <meta name="pagename" content="JSON Tools Plus - JSON Beautify" />
+        <meta name="subject" content="JSON Tools Plus - JSON Beautify" />
+        <meta name="url" content={`http://www.jsontoolsplus.com${Paths.jsonBeautify}`} />
+        <meta name="identifier-URL" content={`http://www.jsontoolsplus.com${Paths.jsonBeautify}`} />
+      </Helmet>
+
       <div className='row pathInput'>
         <div>
           <Tooltip title='Generate a JSON schema out of the input object'>
