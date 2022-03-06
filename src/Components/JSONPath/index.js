@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { JSONPath as JSONPathPlus } from 'jsonpath-plus';
 import { Tooltip } from '@mui/material';
+import { Helmet } from 'react-helmet';
+import Paths from '../../AppRouter/Paths';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
 import SavedJSONPaths from '../SavedJSONPaths';
@@ -60,6 +62,13 @@ const JSONPath = () => {
 
   return (
     <div className='container-fluid jsonPathContainer'>
+      <Helmet>
+        <title>JSON Tools Plus - JSON Path Evaluator</title>
+        <meta name="pagename" content="JSON Tools Plus - JSON Path Evaluator" />
+        <meta name="subject" content="JSON Tools Plus - JSON Path Evaluator" />
+        <meta name="url" content={`http://www.jsontoolsplus.com${Paths.jsonPath}`} />
+        <meta name="identifier-URL" content={`http://www.jsontoolsplus.com${Paths.jsonPath}`} />
+      </Helmet>
 
       <SavedJSONPaths
         openDialog={savedJSONPathsDialog}
