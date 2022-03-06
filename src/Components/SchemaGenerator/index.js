@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import toJsonSchema from 'to-json-schema';
 import { Tooltip } from '@mui/material';
+import { Helmet } from 'react-helmet';
+import Paths from '../../AppRouter/Paths';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
 import './schemaGenerator.scss';
@@ -44,6 +46,14 @@ const SchemaGenerator = () => {
 
   return (
     <div className='container-fluid schemaGeneratorContainer'>
+      <Helmet>
+        <title>JSON Tools Plus - JSON Schema Generator</title>
+        <meta name="pagename" content="JSON Tools Plus - JSON Schema Generator" />
+        <meta name="subject" content="JSON Tools Plus - JSON Schema Generator" />
+        <meta name="url" content={`http://www.jsontoolsplus.com${Paths.schemaGenerator}`} />
+        <meta name="identifier-URL" content={`http://www.jsontoolsplus.com${Paths.schemaGenerator}`} />
+      </Helmet>
+
       <div className='row pathInput'>
         <div>
           <Tooltip title='Generate a JSON schema out of the input object'>
