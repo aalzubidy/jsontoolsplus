@@ -5,9 +5,9 @@ const NotFound = () => {
   return (
     <div className='container-fluid notFoundContainer'>
       <Helmet>
-        <title>JSON Tools Plus - Page Not Found</title>
-        <meta name="pagename" content="JSON Tools Plus - Page Not Found" />
-        <meta name="subject" content="JSON Tools Plus - Page Not Found" />
+        <title>JSON Tools Plus - Page Not Found 404</title>
+        <meta name="pagename" content="JSON Tools Plus - Page Not Found 404" />
+        <meta name="subject" content="JSON Tools Plus - Page Not Found 404" />
         <meta name="url" content="http://www.jsontoolsplus.com" />
         <meta name="identifier-URL" content="http://www.jsontoolsplus.com" />
       </Helmet>
