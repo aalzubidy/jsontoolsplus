@@ -1,0 +1,12 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html",
+  "/": "pages/index.html",
+  "/jsonBeautify": "pages/jsonBeautify.html",
+  "/jsonMinify": "pages/jsonMinify.html",
+  "/jsonPath": "pages/jsonPath.html",
+  "/schemaEvaluator": "pages/schemaEvaluator.html",
+  "/schemaGenerator": "pages/schemaGenerator.html"
+}

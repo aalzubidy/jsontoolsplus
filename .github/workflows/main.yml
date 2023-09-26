@@ -29,4 +29,13 @@ jobs:
         server: ftp.jsontoolsplus.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./build/
+        local-dir: ./
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/node_modules/**
+          README.md
+          installGitHooks.js
+          LICENSE
+          .git**
+          .es**

@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Tooltip } from '@mui/material';
-import { Helmet } from 'react-helmet';
-import Paths from '../../AppRouter/Paths';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
-import './jsonBeautify.scss';
+import styles from './jsonBeautify.module.scss';
 
 const JSONBeautify = () => {
   const [inputObject, setInputObject] = useState('{}');
@@ -43,16 +41,8 @@ const JSONBeautify = () => {
   }, [inputObject]);
 
   return (
-    <div className='container-fluid jsonBeautifyContainer'>
-      <Helmet>
-        <title>JSON Tools Plus - JSON Beautify</title>
-        <meta name="pagename" content="JSON Tools Plus - JSON Beautify" />
-        <meta name="subject" content="JSON Tools Plus - JSON Beautify" />
-        <meta name="url" content={`http://www.jsontoolsplus.com${Paths.jsonBeautify}`} />
-        <meta name="identifier-URL" content={`http://www.jsontoolsplus.com${Paths.jsonBeautify}`} />
-      </Helmet>
-
-      <div className='row pathInput'>
+    <div className={`container-fluid ${styles.jsonBeautifyContainer}`}>
+      <div className={`row ${styles.pathInput}`}>
         <div>
           <Tooltip title='Generate a JSON schema out of the input object'>
             <button className='btn btn-outline-primary' onClick={handleRun}>Beautify Input Object</button>
@@ -60,18 +50,18 @@ const JSONBeautify = () => {
         </div>
       </div>
 
-      <div className='row objectSchemaRow'>
-        <div className='col objectCol'>
+      <div className={`row ${styles.objectSchemaRow}`}>
+        <div className={`col ${styles.objectCol}`}>
           Input JSON Object
           <CustomAceEditor editorValue={inputObject} setEditorValue={setInputObject} setAnnotations={setInputObjectAnnotations} />
         </div>
-        <div className='col schemaCol'>
+        <div className={`col ${styles.schemaCol}`}>
           Output JSON Object
           <CustomAceEditor editorValue={outputObject} readOnlyMode={true} />
         </div>
       </div>
 
-      <div className='row actionsRow'>
+      <div className={`row ${styles.actionsRow}`}>
         <div className='col'>
           <Tooltip title='Copy output object to clipboard'>
             <i className='btn btn-link bi bi-clipboard' onClick={() => copyTextToClipBoard(outputObject)} />
