@@ -33,6 +33,6 @@ fi
 npm run build
 
 # Add new git files to the commit
-git add package.json package-lock.json
+git add package.json package-lock.json .next
 
 echo "-------------Finished: Pre-Commit Hooks-------------"
