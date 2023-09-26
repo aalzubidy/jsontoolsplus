@@ -39,7 +39,7 @@ jobs:
         server: ftp.jsontoolsplus.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./jsontoolsplus-nextjs/
+        local-dir: ./public_html/jsontoolsplus-nextjs/
         exclude: |
           **/.git*
           **/.git*/**
