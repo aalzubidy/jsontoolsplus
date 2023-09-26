@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import Ajv from 'ajv';
 import { Tooltip } from '@mui/material';
-import { Helmet } from 'react-helmet';
 import CustomAceEditor from '../CustomAceEditor';
-import './schemaValidator.scss';
+import styles from './schemaValidator.module.scss';
 
 const SchemaValidator = () => {
   const ajv = new Ajv();
@@ -62,14 +61,8 @@ const SchemaValidator = () => {
   }, [inputObject, inputSchema]);
 
   return (
-    <div className='container-fluid schemaValidatorContainer'>
-      <Helmet>
-        <title>JSON Tools Plus - JSON Schema Validator</title>
-        <meta name="pagename" content="JSON Tools Plus - JSON Schema Validator" />
-        <meta name="subject" content="JSON Tools Plus - JSON Schema Validator" />
-      </Helmet>
-
-      <div className='row pathInput'>
+    <div className={`container-fluid ${styles.schemaValidatorContainer}`}>
+      <div className={`row ${styles.pathInput}`}>
         <div>
           <Tooltip title='Validate object against schema'>
             <button className='btn btn-outline-primary' onClick={handleRun}>Validate Schema</button>
@@ -77,21 +70,21 @@ const SchemaValidator = () => {
         </div>
       </div>
 
-      <div className='row objectSchemaRow'>
-        <div className='col objectCol'>
+      <div className={`row ${styles.objectSchemaRow}`}>
+        <div className={`col ${styles.objectCol}`}>
           JSON Object
           <CustomAceEditor editorValue={inputObject} setEditorValue={setInputObject} setAnnotations={setInputObjectAnnotations} />
         </div>
-        <div className='col schemaCol'>
+        <div className={`col ${styles.schemaCol}`}>
           JSON Schema
           <CustomAceEditor editorValue={inputSchema} setEditorValue={setInputSchema} setAnnotations={setInputSchemaAnnotations} />
         </div>
       </div>
 
-      <div className='row validationResultsRow'>
+      <div className={`row ${styles.validationResultsRow}`}>
         <div>Schema Validation Results: {validationStatus}
-          {validationStatus === 'Valid' ? <i className='bi bi-check2-circle validStatus' /> : ''}
-          {validationStatus === 'Invalid' ? <i className='bi bi-exclamation-octagon invalidStatus' /> : ''}
+          {validationStatus === 'Valid' ? <i className={`bi bi-check2-circle ${styles.validStatus}`} /> : ''}
+          {validationStatus === 'Invalid' ? <i className={`bi bi-exclamation-octagon ${styles.invalidStatus}`} /> : ''}
         </div>
 
         {validationErrors.length > 0 ?

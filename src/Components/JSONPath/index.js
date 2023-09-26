@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { JSONPath as JSONPathPlus } from 'jsonpath-plus';
 import { Tooltip } from '@mui/material';
-import { Helmet } from 'react-helmet';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
 import SavedJSONPaths from '../SavedJSONPaths';
-import './jsonPath.scss';
+import styles from './jsonPath.module.scss';
 
 const JSONPath = () => {
   const [inputPath, setInputPath] = useState('');
@@ -60,13 +59,7 @@ const JSONPath = () => {
   }, [inputPath, inputObject, autoRun]);
 
   return (
-    <div className='container-fluid jsonPathContainer'>
-      <Helmet>
-        <title>JSON Tools Plus - JSON Path Evaluator</title>
-        <meta name="pagename" content="JSON Tools Plus - JSON Path Evaluator" />
-        <meta name="subject" content="JSON Tools Plus - JSON Path Evaluator" />
-      </Helmet>
-
+    <div className={`container-fluid ${styles.jsonPathContainer}`}>
       <SavedJSONPaths
         openDialog={savedJSONPathsDialog}
         setOpenDialog={setSavedJSONPathsDialog}
@@ -76,7 +69,7 @@ const JSONPath = () => {
         setOutputResults={setOutputResults}
       />
 
-      <div className='row pathInput'>
+      <div className={`row ${styles.pathInput}`}>
         <div className='col col-lg-10 col-md-8'>
           <input className='form-control' type='text' value={inputPath} onChange={(evt) => setInputPath(evt.target.value)} placeholder='Enter json path' />
         </div>
@@ -87,18 +80,18 @@ const JSONPath = () => {
       </div>
 
 
-      <div className='row objectResultsRow'>
-        <div className='col objectCol'>
+      <div className={`row ${styles.objectResultsRow}`}>
+        <div className={`col ${styles.objectCol}`}>
           JSON Input
           <CustomAceEditor editorValue={inputObject} setEditorValue={setInputObject} setAnnotations={setInputObjectAnnotations} />
         </div>
-        <div className='col resultsCol'>
+        <div className={`col ${styles.resultsCol}`}>
           Results
           <CustomAceEditor editorValue={outputResults} readOnlyMode={true} />
         </div>
       </div>
 
-      <div className='row actionsRow'>
+      <div className={`row ${styles.actionsRow}`}>
         <div className='col'>
           <Tooltip title='Copy results to clipboard'>
             <i className='btn btn-link bi bi-clipboard' onClick={() => copyTextToClipBoard(outputResults)} />
@@ -118,7 +111,7 @@ const JSONPath = () => {
         </div>
       </div>
 
-      <div className='row savedResultsRow'>
+      <div className={`row ${styles.savedResultsRow}`}>
         {savedResults.length > 0 ?
           <div>
             <button className='btn btn-outline-primary' onClick={() => setSavedJSONPathsDialog(true)}>View Temporarily Stored JSON Paths</button>

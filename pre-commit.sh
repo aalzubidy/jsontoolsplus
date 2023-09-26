@@ -26,13 +26,13 @@ else
 fi
 
 # Delete old package-lock.json
-rm -rf package-lock.json
+# rm -rf package-lock.json
 
 # Build application
-npm install
+# npm install
 npm run build
 
 # Add new git files to the commit
-git add package.json package-lock.json build
+git add package.json package-lock.json
 
 echo "-------------Finished: Pre-Commit Hooks-------------"
