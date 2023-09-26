@@ -1,5 +1,5 @@
 import { Modal, Tooltip } from '@mui/material';
-import './savedJSONPaths.scss';
+import styles from './savedJSONPaths.module.scss';
 
 const SavedJSONPaths = (props) => {
 
@@ -12,8 +12,8 @@ const SavedJSONPaths = (props) => {
       disableEscapeKeyDown
       hideBackdrop
     >
-      <div className='container-fluid savedJSONPathsContainer'>
-        <div className='row savedResultsRow'>
+      <div className={`container-fluid ${styles.savedJSONPathsContainer}`}>
+        <div className={`row ${styles.savedResultsRow}`}>
           <div>
             Temporarily Saved JSON Paths Results:
             <ul>
@@ -33,7 +33,7 @@ const SavedJSONPaths = (props) => {
           </div>
         </div>
 
-        <div className='row actions'>
+        <div className={`row ${styles.actions}`}>
           <div>
             <button className='btn btn-outline-primary' onClick={() => setOpenDialog(false)}>Close Window</button>
           </div>

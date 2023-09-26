@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import toJsonSchema from 'to-json-schema';
 import { Tooltip } from '@mui/material';
-import { Helmet } from 'react-helmet';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';
-import './schemaGenerator.scss';
+import styles from './schemaGenerator.module.scss';
 
 const SchemaGenerator = () => {
   const [inputObject, setInputObject] = useState('{}');
@@ -44,14 +43,8 @@ const SchemaGenerator = () => {
   }, [inputObject]);
 
   return (
-    <div className='container-fluid schemaGeneratorContainer'>
-      <Helmet>
-        <title>JSON Tools Plus - JSON Schema Generator</title>
-        <meta name="pagename" content="JSON Tools Plus - JSON Schema Generator" />
-        <meta name="subject" content="JSON Tools Plus - JSON Schema Generator" />
-      </Helmet>
-
-      <div className='row pathInput'>
+    <div className={`container-fluid ${styles.schemaGeneratorContainer}`}>
+      <div className={`row ${styles.pathInput}`}>
         <div>
           <Tooltip title='Generate a JSON schema out of the input object'>
             <button className='btn btn-outline-primary' onClick={handleRun}>Generate Schema</button>
@@ -59,18 +52,18 @@ const SchemaGenerator = () => {
         </div>
       </div>
 
-      <div className='row objectSchemaRow'>
-        <div className='col objectCol'>
+      <div className={`row ${styles.objectSchemaRow}`}>
+        <div className={`col ${styles.objectCol}`}>
           Input JSON Object
           <CustomAceEditor editorValue={inputObject} setEditorValue={setInputObject} setAnnotations={setInputObjectAnnotations} />
         </div>
-        <div className='col schemaCol'>
+        <div className={`col ${styles.schemaCol}`}>
           Output JSON Schema
           <CustomAceEditor editorValue={outputSchema} readOnlyMode={true} />
         </div>
       </div>
 
-      <div className='row actionsRow'>
+      <div className={`row ${styles.actionsRow}`}>
         <div className='col'>
           <Tooltip title='Copy schema to clipboard'>
             <i className='btn btn-link bi bi-clipboard' onClick={() => copyTextToClipBoard(outputSchema)} />

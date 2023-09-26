@@ -1,15 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
 import Paths from '../../AppRouter/Paths';
-import './navbar.scss';
+import styles from './navbar.module.scss';
 
 const Navbar = () => {
     // Settings
-    const navigate = useNavigate();
-
-    // Handle active state
-    const windowUrlHref = window.location.href;
-    const windowUrlPathName = window.location.pathname;
+    const nextRouter = useRouter();
 
     const handleOnClick = (evt) => {
         evt.preventDefault();
@@ -17,21 +13,22 @@ const Navbar = () => {
         el.href = evt.target.href;
         ReactGA.set({ page: el.pathname });
         ReactGA.pageview(el.pathname);
-        navigate(el.pathname);
+        if (el.pathname === '/undefined') nextRouter.push(Paths.home);
+        else nextRouter.push(el.pathname);
     }
 
     // Handle returning class name including which one is active
     const handleClassName = (currentPath) => {
-        if (windowUrlPathName === '/' && currentPath === Paths.jsonPath) return 'nav-link mx-2 active';
-        return `nav-link mx-2 ${windowUrlHref.endsWith(currentPath) ? 'active' : ''}`;
+        if (nextRouter.pathname === '/' && currentPath === Paths.jsonPath) return `nav-link mx-2 ${styles.active} active`;
+        else return `nav-link mx-2 ${nextRouter.pathname === currentPath ? `${styles.active} active` : ''}`;
     }
 
     return (
         <div>
-            <nav className='navbar fixed-top navbar-expand-sm navbar-light'>
+            <nav className={`${styles.navbar} navbar fixed-top navbar-expand-sm navbar-light`}>
                 <div className='container-fluid'>
-                    <a className='navbar-brand mx-5' onClick={() => navigate(Paths.home)} href={Paths.home}>
-                        <img src="../images/jtp-logo.png" alt="jsontoolsplus" height="36" className="d-inline-block align-text-top" />
+                    <a className='navbar-brand mx-5' onClick={handleOnClick} href={Paths.home}>
+                        <img src="/images/jtp-logo.png" alt="jsontoolsplus" height="36" className="d-inline-block align-text-top" />
                     </a>
                     <button className='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
                         <span className='navbar-toggler-icon'></span>
