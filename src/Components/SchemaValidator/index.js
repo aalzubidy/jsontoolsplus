@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Ajv from 'ajv';
 import { Tooltip } from '@mui/material';
 import { Helmet } from 'react-helmet';
+import Paths from '../../AppRouter/Paths';
 import CustomAceEditor from '../CustomAceEditor';
 import './schemaValidator.scss';
 
@@ -67,6 +68,8 @@ const SchemaValidator = () => {
         <title>JSON Tools Plus - JSON Schema Validator</title>
         <meta name="pagename" content="JSON Tools Plus - JSON Schema Validator" />
         <meta name="subject" content="JSON Tools Plus - JSON Schema Validator" />
+        <meta name="url" content={`http://www.jsontoolsplus.com${Paths.schemaValidator}`} />
+        <meta name="identifier-URL" content={`http://www.jsontoolsplus.com${Paths.schemaValidator}`} />
       </Helmet>
 
       <div className='row pathInput'>
