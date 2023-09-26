@@ -1,6 +1,6 @@
 {
   "name": "jsontoolsplus",
-  "version": "0.2.2",
+  "version": "0.2.0",
   "private": false,
   "dependencies": {
     "@emotion/react": "^11.8.1",
