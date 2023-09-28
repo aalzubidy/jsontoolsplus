@@ -39,13 +39,9 @@ jobs:
         server: ftp.jsontoolsplus.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ./jsontoolsplus-nextjs/
+        server-dir: ./
         exclude: |
           **/.git*
           **/.git*/**
           **/node_modules/**
-          README.md
-          installGitHooks.js
-          LICENSE
           .git**
-          .es**
