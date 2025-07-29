@@ -13,8 +13,8 @@ function loadConfig() {
     configPath = path.resolve(process.env.JSONTOOLSPLUS_CONFIG_FILE);
     console.log(`Using config file from JSONTOOLSPLUS_CONFIG_FILE: ${configPath}`);
   } else {
-    // Fallback to config.json in project root
-    configPath = path.resolve(__dirname, '../../config.json');
+    // Fallback to config.json in current directory
+    configPath = path.resolve(__dirname, './config.json');
     console.log(`Using default config file: ${configPath}`);
   }
 
