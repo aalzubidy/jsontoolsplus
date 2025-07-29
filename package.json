@@ -1,13 +1,13 @@
 {
   "name": "jsontoolsplus",
-  "version": "2.0.5",
+  "version": "2.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "preinstall": "node installGitHooks.js"
+    "start": "node server.js",
+    "preinstall": ""
   },
   "keywords": [
     "json",
