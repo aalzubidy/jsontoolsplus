@@ -1,0 +1,79 @@
+name: Deploy jsontoolsplus to VPS
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      component_changed: ${{ steps.changes.outputs.component_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Detect changed files
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            component_changed:
+              - '!README.md'
+              - '!pre-commit.sh'
+              - '!LICENSE'
+              - '**'
+
+  deploy:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect-changes.outputs.component_changed == 'true' }}
+    
+    steps:
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          
+      - name: Test SSH Connection
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection test successful"'
+          
+      - name: Deploy to VPS
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'ENDSSH'
+            echo "🚀 Starting deployment for jsontoolsplus..."
+            echo "Component changed: ${{ needs.detect-changes.outputs.component_changed }}"
+            
+                            /opt/initpilot/deployment_scripts/apps/jsontoolsplus/jsontoolsplus-deploy.sh \
+              --component=${{ needs.detect-changes.outputs.component_changed }}
+          ENDSSH
+
+      - name: Health Check
+        if: success()
+        run: |
+          ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'ENDSSH'
+                            /opt/initpilot/deployment_scripts/apps/jsontoolsplus/jsontoolsplus-health.sh
+          ENDSSH
+
+      - name: Cleanup SSH Key
+        if: always()
+        run: |
+          rm -f ~/.ssh/id_ed25519
+
+      - name: Notify Success
+        if: success()
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "🌐 Application: https://jsontoolsplus.com"
+
+      - name: Notify Failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Check the logs above for details." 
