@@ -1,0 +1,75 @@
+name: Deploy jsontoolsplus to Server
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      component_changed: ${{ steps.changes.outputs.component_changed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Detect changed files
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            component_changed:
+              - '!README.md'
+              - '!pre-commit.sh'
+              - '!LICENSE'
+              - '**'
+
+  deploy:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    if: ${{ needs.detect-changes.outputs.component_changed == 'true' }}
+    
+    steps:
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+          
+      - name: Test SSH Connection
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} 'echo "SSH connection test successful"'
+          
+      - name: Deploy to Server
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'ENDSSH'
+            echo "🚀 Starting deployment for jsontoolsplus..."
+            echo "Component changed: ${{ needs.detect-changes.outputs.component_changed }}"
+            
+            /opt/initpilot/deployment_scripts/apps/jsontoolsplus/jsontoolsplus-deploy.sh \
+              --component=${{ needs.detect-changes.outputs.component_changed }}
+          ENDSSH
+
+      - name: Health Check
+        if: success()
+        run: |
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'ENDSSH'
+            /opt/initpilot/deployment_scripts/apps/jsontoolsplus/jsontoolsplus-health.sh
+          ENDSSH
+
+      - name: Notify Success
+        if: success()
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "🌐 Application: https://jsontoolsplus.com"
+
+      - name: Notify Failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Check the logs above for details." 
