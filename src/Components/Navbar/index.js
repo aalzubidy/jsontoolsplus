@@ -1,11 +1,14 @@
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
+import { useEditorSettings } from '../../Contexts/EditorSettingsContext';
+import SettingsModal from '../SettingsModal';
 import Paths from '../../AppRouter/Paths';
 import styles from './navbar.module.scss';
 
 const Navbar = () => {
     // Settings
     const nextRouter = useRouter();
+    const { toggleSettings } = useEditorSettings();
 
     const handleOnClick = (evt) => {
         evt.preventDefault();
@@ -25,6 +28,7 @@ const Navbar = () => {
 
     return (
         <div>
+            <SettingsModal />
             <nav className={`${styles.navbar} navbar fixed-top navbar-expand-sm navbar-light`}>
                 <div className='container-fluid'>
                     <a className='navbar-brand mx-5' onClick={handleOnClick} href={Paths.home}>
@@ -42,8 +46,14 @@ const Navbar = () => {
                                 <a className={handleClassName(Paths.schemaGenerator)} onClick={handleOnClick} href={Paths.schemaGenerator}>Schema Generator</a>
                                 <a className={handleClassName(Paths.jsonBeautify)} onClick={handleOnClick} href={Paths.jsonBeautify}>Beautify</a>
                                 <a className={handleClassName(Paths.jsonMinify)} onClick={handleOnClick} href={Paths.jsonMinify}>Minify</a>
-                                <a className={handleClassName()} href='https://github.com/aalzubidy/jsontoolsplus' target='_blank' rel='noreferrer'>Source Code</a>
                             </div>
+                            <button 
+                                className={`btn btn-link ${styles.settingsButton}`}
+                                onClick={toggleSettings}
+                                title="Editor Settings"
+                            >
+                                <i className="bi bi-gear"></i>
+                            </button>
                         </div>
                     </div>
                 </div>

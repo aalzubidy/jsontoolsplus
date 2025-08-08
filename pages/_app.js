@@ -1,4 +1,5 @@
 import { AlertsProvider } from "../src/Contexts/AlertsContext";
+import { EditorSettingsProvider } from "../src/Contexts/EditorSettingsContext";
 import Navbar from "../src/Components/Navbar";
 import SiteFooter from '../src/Components/SiteFooter';
 import Head from 'next/head';
@@ -43,11 +44,13 @@ export default function MyApp({ Component, pageProps }) {
                 <Script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" />
                 <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" />
             </Head>
-            <AlertsProvider>
-                <Navbar />
-                <Component {...pageProps} />
-                <SiteFooter />
-            </AlertsProvider>
+            <EditorSettingsProvider>
+                <AlertsProvider>
+                    <Navbar />
+                    <Component {...pageProps} />
+                    <SiteFooter />
+                </AlertsProvider>
+            </EditorSettingsProvider>
         </>
     )
 }
