@@ -6,3 +6,22 @@
     border-radius: 6px;
   }
 }
+
+.settingsButton {
+  margin-left: 10px !important;
+  padding: 8px 12px !important;
+  color: #0d6efd !important;
+  font-size: 20px !important;
+  border: none !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    background-color: #e7f1ff !important;
+    color: #0a58ca !important;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25) !important;
+  }
+}
