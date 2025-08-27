@@ -1,0 +1,20 @@
+.container {
+  width: 100%;
+}
+
+.textarea {
+  width: 100%;
+  height: 500px; /* DEFAULT_EDITOR_HEIGHT_PX */
+  padding: 8px;
+  font-family: Menlo, Monaco, 'Courier New', monospace;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+}
