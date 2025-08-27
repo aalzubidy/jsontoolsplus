@@ -65,20 +65,6 @@ const SettingsModal = () => {
             </div>
           </div>
 
-          {/* Preview */}
-          <div className={styles.setting}>
-            <label className={styles.label}>Preview</label>
-            <div 
-              className={styles.preview}
-              style={{
-                fontSize: `${fontSize}px`,
-                backgroundColor: theme === 'solarized-light' ? '#fdf6e3' : '#002b36',
-                color: theme === 'solarized-light' ? '#586e75' : '#839496',
-              }}
-            >
-              {`{ "example": "JSON text" }`}
-            </div>
-          </div>
         </div>
       </div>
     </>
