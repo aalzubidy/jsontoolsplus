@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import toJsonSchema from 'to-json-schema';
+import toJsonSchema from '../../Utils/toJsonSchema';
 import { Tooltip } from '@mui/material';
 import { copyTextToClipBoard, downloadFile } from '../../Helpers';
 import CustomAceEditor from '../CustomAceEditor';

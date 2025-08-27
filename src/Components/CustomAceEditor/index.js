@@ -1,163 +1,73 @@
-import { Editor } from '@monaco-editor/react';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import styles from './customAceEditor.module.scss';
 import { useEditorSettings } from '../../Contexts/EditorSettingsContext';
 
-const CustomAceEditor = (props) => {
-  const { editorValue, setEditorValue, setAnnotations, readOnlyMode } = props;
-  const [isEditorReady, setIsEditorReady] = useState(false);
+// Static imports of CodeMirror extensions to avoid multiple instances of @codemirror/state
+import { json } from '@codemirror/lang-json';
+import { autocompletion } from '@codemirror/autocomplete';
+
+// Load react-codemirror client-side only
+const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), { ssr: false });
+
+const DEFAULT_HEIGHT_PX = 480; // matches CSS comment; change here if you prefer
+
+const CustomAceEditor = ({ editorValue = '', setEditorValue = () => {}, setAnnotations = () => {}, readOnlyMode = false }) => {
   const { theme, fontSize } = useEditorSettings();
+  const editorRef = useRef(null);
 
-  const handleOnChange = (newValue) => {
-    if (setEditorValue) setEditorValue(newValue || '');
-  }
+  // Use a stable extensions array built from the statically imported extensions
+  const extensions = [json(), autocompletion()];
 
-  const handleEditorDidMount = (editor, monaco) => {
-    // Define Solarized Light theme FIRST
-    monaco.editor.defineTheme('solarized-light', {
-      base: 'vs',
-      inherit: true,
-      rules: [
-        { token: '', foreground: '586e75', background: 'fdf6e3' },
-        { token: 'comment', foreground: '93a1a1', fontStyle: 'italic' },
-        { token: 'keyword', foreground: '859900' },
-        { token: 'string', foreground: '2aa198' },
-        { token: 'number', foreground: 'd33682' },
-        { token: 'delimiter', foreground: '586e75' },
-        { token: 'type', foreground: 'b58900' },
-        { token: 'identifier', foreground: '268bd2' }
-      ],
-      colors: {
-        'editor.background': '#fdf6e3',
-        'editor.foreground': '#586e75',
-        'editor.lineHighlightBackground': '#eee8d5',
-        'editor.selectionBackground': '#073642',
-        'editorCursor.foreground': '#586e75',
-        'editorLineNumber.foreground': '#93a1a1',
-        'editorGutter.background': '#eee8d5',
-        'editorWhitespace.foreground': '#93a1a1'
+  useEffect(() => {
+    // Basic lint: if content is valid JSON, clear annotations; otherwise provide a simple message
+    try {
+      JSON.parse(editorValue);
+      setAnnotations([]);
+    } catch (e) {
+      const msg = e && e.message ? e.message : 'Invalid JSON';
+      const mPos = msg.match(/position (\d+)/i);
+      let row = 0, column = 0;
+      if (mPos) {
+        const pos = parseInt(mPos[1], 10);
+        const upto = editorValue.slice(0, pos);
+        row = (upto.match(/\n/g) || []).length;
+        const lastNewline = upto.lastIndexOf('\n');
+        column = lastNewline === -1 ? pos : pos - lastNewline - 1;
       }
-    });
+      setAnnotations([{ row, column, text: msg, type: 'error' }]);
+    }
+  }, [editorValue, setAnnotations]);
 
-    // Define Solarized Dark theme
-    monaco.editor.defineTheme('solarized-dark', {
-      base: 'vs-dark',
-      inherit: true,
-      rules: [
-        { token: '', foreground: '839496', background: '002b36' },
-        { token: 'comment', foreground: '586e75', fontStyle: 'italic' },
-        { token: 'keyword', foreground: '859900' },
-        { token: 'string', foreground: '2aa198' },
-        { token: 'number', foreground: 'd33682' },
-        { token: 'delimiter', foreground: '839496' },
-        { token: 'type', foreground: 'b58900' },
-        { token: 'identifier', foreground: '268bd2' }
-      ],
-      colors: {
-        'editor.background': '#002b36',
-        'editor.foreground': '#839496',
-        'editor.lineHighlightBackground': '#073642',
-        'editor.selectionBackground': '#073642',
-        'editorCursor.foreground': '#839496',
-        'editorLineNumber.foreground': '#586e75',
-        'editorGutter.background': '#073642',
-        'editorWhitespace.foreground': '#586e75'
+  // Formatting shortcut handled at the wrapper level (Ctrl/Cmd+Shift+F)
+  const onKeyDown = (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'F' || e.key === 'f')) {
+      e.preventDefault();
+      try {
+        const parsed = JSON.parse(editorValue);
+        const formatted = JSON.stringify(parsed, null, 2);
+        setEditorValue(formatted);
+      } catch (_) {
+        // ignore if invalid
       }
-    });
-
-    // Apply the current theme immediately
-    monaco.editor.setTheme(theme);
-    
-    setIsEditorReady(true);
-
-    // Configure JSON validation
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      validate: true,
-      schemas: []
-    });
-
-    // Listen for validation markers (errors)
-    const model = editor.getModel();
-    if (model && setAnnotations) {
-      const updateAnnotations = () => {
-        const markers = monaco.editor.getModelMarkers({ resource: model.uri });
-        const annotations = markers.map(marker => ({
-          row: marker.startLineNumber - 1,
-          column: marker.startColumn - 1,
-          text: marker.message,
-          type: marker.severity === 8 ? 'error' : 'warning'
-        }));
-        setAnnotations(annotations);
-      };
-
-      // Initial check
-      updateAnnotations();
-      
-      // Listen for changes
-      model.onDidChangeContent(updateAnnotations);
     }
   };
 
+  const themeClass = theme === 'solarized-light' ? styles.light : styles.dark;
+
   return (
-    <div style={{ 
-      height: '56vh', 
-      border: `1px solid ${theme === 'solarized-dark' ? '#073642' : '#eee8d5'}`, 
-      borderRadius: '4px', 
-      overflow: 'hidden' 
-    }}>
-      <Editor
-        height="56vh"
-        width="100%"
-        language="json"
-        theme={theme}
-        value={editorValue || ''}
-        onChange={handleOnChange}
-        onMount={handleEditorDidMount}
-        loading={
-          <div style={{
-            height: '56vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: theme === 'solarized-dark' ? '#002b36' : '#fdf6e3',
-            color: theme === 'solarized-dark' ? '#839496' : '#586e75',
-            fontSize: '14px'
-          }}>
-            Loading editor...
-          </div>
-        }
-        options={{
-          readOnly: readOnlyMode || false,
-          minimap: { enabled: false },
-          scrollBeyondLastLine: false,
-          fontSize: fontSize,
-          lineNumbers: 'on',
-          roundedSelection: false,
-          scrollbar: {
-            vertical: 'auto',
-            horizontal: 'auto',
-            useShadows: false,
-            verticalHasArrows: true,
-            horizontalHasArrows: true,
-          },
-          tabSize: 2,
-          insertSpaces: true,
-          wordWrap: 'on',
-          automaticLayout: true,
-          formatOnPaste: true,
-          formatOnType: true,
-          suggestOnTriggerCharacters: true,
-          acceptSuggestionOnEnter: 'on',
-          quickSuggestions: true,
-          contextmenu: true,
-          mouseWheelZoom: true,
-          cursorStyle: 'line',
-          renderLineHighlight: 'line',
-          selectionHighlight: true,
-          folding: true,
-          foldingStrategy: 'indentation',
-          showFoldingControls: 'always',
-          bracketPairColorization: { enabled: true }
-        }}
+    <div className={`${styles.container} ${themeClass}`} onKeyDown={onKeyDown}>
+      <CodeMirror
+        ref={editorRef}
+        value={editorValue}
+        height={`${DEFAULT_HEIGHT_PX}px`}
+        theme={theme === 'solarized-light' ? 'light' : 'dark'}
+        extensions={extensions}
+        onChange={(value) => setEditorValue(value)}
+        editable={!readOnlyMode}
+        basicSetup={{ foldGutter: false }}
+        style={{ fontSize: `${fontSize}px`, color: theme === 'solarized-light' ? '#586e75' : '#839496' }}
+        className={styles.editor}
       />
     </div>
   );
